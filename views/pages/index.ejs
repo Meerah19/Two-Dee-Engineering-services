@@ -7,13 +7,57 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #f1f5f9 100%);
             color: #0f172a;
             overflow-x: hidden;
         }
-        
+
+        /* Animated Tech Background */
+        .tech-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .tech-bg::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                linear-gradient(rgba(44, 94, 46, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(44, 94, 46, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(40px, 40px); }
+        }
+
+        .tech-circles {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(44, 94, 46, 0.02) 0%, transparent 50%);
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
         /* Navigation */
         .navbar {
             position: fixed;
@@ -26,36 +70,53 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(44,94,46,0.1);
+            border-bottom: 1px solid rgba(44, 94, 46, 0.1);
             box-shadow: 0 4px 20px rgba(0,0,0,0.02);
         }
-        
+
         .logo {
             font-size: 24px;
             font-weight: 800;
             background: linear-gradient(135deg, #2C5E2E 0%, #800020 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
         }
-        
+
         .nav-links {
             display: flex;
             align-items: center;
             gap: 30px;
         }
-        
+
         .nav-links a {
             color: #334155;
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s;
+            transition: all 0.3s;
+            position: relative;
         }
-        
+
         .nav-links a:hover {
             color: #2C5E2E;
         }
-        
-        /* Admin Link Button */
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #2C5E2E, #800020);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Admin Button */
         .admin-link {
             background: linear-gradient(135deg, #2C5E2E, #800020);
             color: white !important;
@@ -63,12 +124,16 @@
             border-radius: 50px;
             transition: transform 0.3s, box-shadow 0.3s !important;
         }
-        
+
         .admin-link:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(44,94,46,0.3);
+            box-shadow: 0 4px 12px rgba(44, 94, 46, 0.3);
         }
-        
+
+        .admin-link::after {
+            display: none !important;
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -76,18 +141,25 @@
             position: relative;
             z-index: 1;
         }
-        
-        .hero { text-align: center; padding: 60px 0 40px; }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 60px 0 40px;
+        }
+
         .hero-badge {
             display: inline-block;
             padding: 8px 20px;
-            background: linear-gradient(135deg, rgba(44,94,46,0.1), rgba(128,0,32,0.1));
+            background: linear-gradient(135deg, rgba(44, 94, 46, 0.1), rgba(128, 0, 32, 0.1));
             border-radius: 50px;
             font-size: 14px;
             font-weight: 600;
             color: #2C5E2E;
             margin-bottom: 30px;
+            backdrop-filter: blur(10px);
         }
+
         .hero h1 {
             font-size: 64px;
             font-weight: 800;
@@ -95,13 +167,17 @@
             background: linear-gradient(135deg, #0f172a 0%, #2C5E2E 40%, #800020 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            letter-spacing: -2px;
         }
+
         .hero p {
             font-size: 18px;
             color: #475569;
             margin-bottom: 40px;
             line-height: 1.6;
         }
+
+        /* Buttons */
         .btn-primary {
             display: inline-block;
             padding: 14px 35px;
@@ -112,8 +188,16 @@
             margin: 0 10px;
             font-weight: 600;
             transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(44, 94, 46, 0.2);
         }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(44,94,46,0.3); }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(44, 94, 46, 0.3);
+        }
+
         .btn-outline {
             display: inline-block;
             padding: 14px 35px;
@@ -126,89 +210,239 @@
             font-weight: 600;
             transition: all 0.3s;
         }
-        .btn-outline:hover { background: #2C5E2E; color: white; transform: translateY(-2px); }
-        
+
+        .btn-outline:hover {
+            background: #2C5E2E;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Glass Stats Cards */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 25px;
             margin: 80px 0;
         }
+
         .stat-card {
             text-align: center;
             padding: 35px 25px;
-            background: white;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
             border-radius: 24px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             transition: all 0.3s;
+            border: 1px solid rgba(44, 94, 46, 0.1);
+            position: relative;
+            overflow: hidden;
         }
-        .stat-card:hover { transform: translateY(-8px); }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #2C5E2E, #800020);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(44, 94, 46, 0.12);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
         .stat-number {
             font-size: 48px;
             font-weight: 800;
             background: linear-gradient(135deg, #2C5E2E, #800020);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
         }
-        .stat-label { color: #64748b; font-weight: 500; margin-top: 10px; }
-        
+
+        .stat-label {
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        /* Section Title */
         .section-title {
             text-align: center;
             font-size: 38px;
             font-weight: 700;
             margin: 60px 0 20px;
+            position: relative;
         }
-        .section-title span { background: linear-gradient(135deg, #2C5E2E, #800020); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .section-subtitle { text-align: center; color: #64748b; margin-bottom: 50px; font-size: 18px; }
-        
+
+        .section-title span {
+            background: linear-gradient(135deg, #2C5E2E, #800020);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 50px;
+            font-size: 18px;
+        }
+
+        /* Glass Service Cards */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 25px;
             margin-top: 30px;
         }
+
         .service-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
             padding: 35px 25px;
             border-radius: 24px;
-            text-align: center;
             transition: all 0.3s;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid rgba(44, 94, 46, 0.1);
+            position: relative;
+            text-align: center;
         }
-        .service-card:hover { transform: translateY(-8px); }
-        .service-icon { font-size: 52px; margin-bottom: 20px; }
-        .service-card h3 { font-size: 20px; margin-bottom: 15px; }
-        .service-card p { color: #64748b; line-height: 1.5; font-size: 14px; }
-        
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(44, 94, 46, 0.12);
+            border-color: rgba(44, 94, 46, 0.2);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .service-icon {
+            font-size: 52px;
+            margin-bottom: 20px;
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.1);
+        }
+
+        .service-card h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #0f172a;
+        }
+
+        .service-card p {
+            color: #64748b;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        /* Glass CTA Section */
         .cta-section {
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
             border-radius: 40px;
             padding: 60px;
             text-align: center;
             margin: 60px 0;
+            border: 1px solid rgba(44, 94, 46, 0.1);
         }
-        .cta-section h2 { font-size: 32px; margin-bottom: 15px; }
-        
+
+        .cta-section h2 {
+            font-size: 32px;
+            margin-bottom: 15px;
+            color: #0f172a;
+        }
+
+        .cta-section p {
+            color: #475569;
+            margin-bottom: 30px;
+        }
+
+        /* Footer */
         .footer {
             background: #0f172a;
             color: white;
             padding: 60px 40px 30px;
             margin-top: 60px;
-            text-align: center;
         }
-        
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+        }
+
+        .footer h4 {
+            margin-bottom: 20px;
+            color: #2C5E2E;
+            font-size: 18px;
+        }
+
+        .footer a {
+            color: #94a3b8;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            transition: color 0.3s;
+        }
+
+        .footer a:hover {
+            color: #2C5E2E;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #94a3b8;
+        }
+
         @media (max-width: 768px) {
-            .stats-grid, .services-grid { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 36px; }
-            .container { padding: 120px 20px 60px; }
-            .navbar { padding: 15px 20px; }
-            .nav-links { gap: 15px; }
-            .nav-links a { font-size: 14px; }
-            .admin-link { padding: 5px 12px; font-size: 12px; }
+            .stats-grid, .services-grid, .footer-content {
+                grid-template-columns: 1fr;
+            }
+            .hero h1 {
+                font-size: 36px;
+            }
+            .container {
+                padding: 120px 20px 60px;
+            }
+            .navbar {
+                padding: 15px 20px;
+            }
+            .nav-links {
+                gap: 15px;
+            }
+            .nav-links a {
+                font-size: 14px;
+            }
+            .admin-link {
+                padding: 5px 12px;
+                font-size: 12px;
+            }
+            .section-title {
+                font-size: 28px;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="tech-bg">
+        <div class="tech-circles"></div>
+    </div>
+
     <nav class="navbar">
         <div class="logo">Two Dee Engineering</div>
         <div class="nav-links">
@@ -224,27 +458,55 @@
     <div class="container">
         <div class="hero">
             <div class="hero-badge">✦ ENGINEERING TOMORROW ✦</div>
-            <h1>Two Dee Engineering Servives.<br>Precision Engineering. Proven Results.</h1>
-            <p>Structural, Electrical & Civil Engineering for complex commercial and residential projects.<br>Licensed in Texas and California.</p>
+            <h1>Precision Engineering.<br>Proven Results.</h1>
+            <p>Structural & Civil Engineering for complex commercial and residential projects.<br>Licensed in Texas and California.</p>
             <a href="/projects" class="btn-primary">Explore Projects</a>
             <a href="/contact" class="btn-outline">Request Consultation</a>
         </div>
 
         <div class="stats-grid">
-            <div class="stat-card"><div class="stat-number">25+</div><div class="stat-label">Years Experience</div></div>
-            <div class="stat-card"><div class="stat-number">150+</div><div class="stat-label">Projects Completed</div></div>
-            <div class="stat-card"><div class="stat-number">100%</div><div class="stat-label">Client Satisfaction</div></div>
-            <div class="stat-card"><div class="stat-number">15</div><div class="stat-label">States Served</div></div>
+            <div class="stat-card">
+                <div class="stat-number">25+</div>
+                <div class="stat-label">Years Experience</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">150+</div>
+                <div class="stat-label">Projects Completed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Client Satisfaction</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">15</div>
+                <div class="stat-label">States Served</div>
+            </div>
         </div>
 
         <h2 class="section-title">Our <span>Expertise</span></h2>
         <p class="section-subtitle">Comprehensive engineering solutions tailored to your project needs</p>
 
         <div class="services-grid">
-            <div class="service-card"><div class="service-icon">🏗️</div><h3>Structural Engineering</h3><p>Innovative structural design for commercial and residential buildings.</p></div>
-            <div class="service-card"><div class="service-icon">🏞️</div><h3>Civil Engineering</h3><p>Site development, infrastructure, and environmental solutions.</p></div>
-            <div class="service-card"><div class="service-icon">⚡</div><h3>MEP Engineering</h3><p>Mechanical, electrical, and plumbing systems design.</p></div>
-            <div class="service-card"><div class="service-icon">🔧</div><h3>Construction Consulting</h3><p>Expert guidance throughout the construction lifecycle.</p></div>
+            <div class="service-card">
+                <div class="service-icon">🏗️</div>
+                <h3>Structural Engineering</h3>
+                <p>Innovative structural design for commercial and residential buildings.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🏞️</div>
+                <h3>Civil Engineering</h3>
+                <p>Site development, infrastructure, and environmental solutions.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">⚡</div>
+                <h3>MEP Engineering</h3>
+                <p>Mechanical, electrical, and plumbing systems design.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🔧</div>
+                <h3>Construction Consulting</h3>
+                <p>Expert guidance throughout the construction lifecycle.</p>
+            </div>
         </div>
 
         <div class="cta-section">
@@ -255,8 +517,37 @@
     </div>
 
     <footer class="footer">
-        <p>&copy; 2024 Two Dee Engineering Services. All rights reserved.</p>
-        <p style="margin-top: 10px; font-size: 12px;">Licensed PE: TX-123456 | CA-789101</p>
+        <div class="footer-content">
+            <div>
+                <h4>Two Dee Engineering</h4>
+                <p style="color: #94a3b8;">Precision engineering solutions backed by decades of experience.</p>
+            </div>
+            <div>
+                <h4>Quick Links</h4>
+                <a href="/">Home</a>
+                <a href="/services">Services</a>
+                <a href="/projects">Projects</a>
+                <a href="/about">About</a>
+                <a href="/contact">Contact</a>
+            </div>
+            <div>
+                <h4>Services</h4>
+                <a href="/services">Structural Engineering</a>
+                <a href="/services">Civil Engineering</a>
+                <a href="/services">MEP Engineering</a>
+                <a href="/services">Construction Consulting</a>
+            </div>
+            <div>
+                <h4>Contact Info</h4>
+                <p style="color: #94a3b8;">📍 Austin, TX</p>
+                <p style="color: #94a3b8;">📞 (512) 555-0123</p>
+                <p style="color: #94a3b8;">✉️ info@twodee.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Two Dee Engineering Services. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 12px;">Licensed PE: TX-123456 | CA-789101</p>
+        </div>
     </footer>
 </body>
 </html>
