@@ -58,7 +58,7 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Navigation - Fixed Card Style */
+        /* Navigation Card - Multi-line on mobile */
         .nav-card {
             position: fixed;
             top: 20px;
@@ -71,17 +71,20 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.05);
             z-index: 1000;
             padding: 8px 20px;
+            width: auto;
+            max-width: 90%;
         }
 
         .nav-container {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
-            flex-wrap: nowrap;
+            flex-wrap: wrap;
         }
 
         .nav-link {
-            padding: 8px 18px;
+            padding: 8px 16px;
             color: #334155;
             text-decoration: none;
             font-weight: 500;
@@ -107,30 +110,19 @@
             transform: translateY(-1px);
         }
 
-        /* Mobile Navigation - Horizontal Scroll with Fixed Card */
+        /* Mobile: multi-line, centered, with smaller padding */
         @media (max-width: 768px) {
             .nav-card {
                 top: 15px;
-                width: 92%;
-                padding: 6px 12px;
-                border-radius: 50px;
-                overflow-x: auto;
-                overflow-y: hidden;
-                -webkit-overflow-scrolling: touch;
-                scrollbar-width: none;
+                width: 94%;
+                border-radius: 30px;
+                padding: 10px 16px;
             }
-            
-            .nav-card::-webkit-scrollbar {
-                display: none;
-            }
-            
             .nav-container {
-                display: inline-flex;
-                gap: 4px;
+                gap: 6px;
             }
-            
             .nav-link {
-                padding: 6px 14px;
+                padding: 6px 12px;
                 font-size: 13px;
             }
         }
@@ -138,8 +130,7 @@
         /* Tablet */
         @media (min-width: 769px) and (max-width: 1024px) {
             .nav-card {
-                width: auto;
-                max-width: 90%;
+                max-width: 95%;
             }
         }
 
@@ -402,7 +393,7 @@
                 font-size: 14px;
             }
             .container {
-                padding: 120px 20px 60px;
+                padding: 180px 20px 60px;
             }
             .section-title {
                 font-size: 28px;
@@ -418,6 +409,10 @@
             .cta-section h2 {
                 font-size: 24px;
             }
+            .hero-badge {
+                font-size: 12px;
+                padding: 6px 16px;
+            }
         }
 
         @media (min-width: 769px) and (max-width: 1024px) {
@@ -431,7 +426,11 @@
 
         @media (max-width: 480px) {
             .hero h1 {
-                font-size: 26px;
+                font-size: 28px;
+            }
+            .nav-link {
+                padding: 5px 10px;
+                font-size: 12px;
             }
         }
     </style>
@@ -441,7 +440,7 @@
         <div class="tech-circles"></div>
     </div>
 
-    <!-- Fixed Navigation Card -->
+    <!-- Fixed Navigation Card - Multi-line on mobile -->
     <div class="nav-card">
         <div class="nav-container">
             <a href="/" class="nav-link">Home</a>
@@ -456,7 +455,7 @@
     <div class="container">
         <div class="hero">
             <div class="hero-badge">✦ ENGINEERING TOMORROW ✦</div>
-            <h1>Two Dee Engineering<br>Services</h1>
+            <h1>Two Dee Engineering Services</h1>
             <div class="hero-subtitle">Precision Engineering. Proven Results.</div>
             <p>Structural & Civil Engineering for complex commercial and residential projects.<br>Licensed in Texas and California.</p>
             <a href="/projects" class="btn-primary">Explore Projects</a>
