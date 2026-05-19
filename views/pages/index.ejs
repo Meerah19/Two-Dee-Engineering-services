@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Two Dee Engineering - Precision Engineering</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -58,62 +58,42 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Navigation */
+        /* Navigation - Card Style */
         .navbar {
             position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 20px 40px;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: auto;
+            max-width: 90%;
+            padding: 12px 24px;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             z-index: 1000;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            border-bottom: 1px solid rgba(44, 94, 46, 0.1);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+            gap: 8px;
+            flex-wrap: wrap;
+            border-radius: 60px;
+            border: 1px solid rgba(44, 94, 46, 0.15);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.05);
         }
 
-        .logo {
-            font-size: 24px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #2C5E2E 0%, #800020 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -0.5px;
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-        }
-
-        .nav-links a {
+        .nav-link {
+            padding: 8px 20px;
             color: #334155;
             text-decoration: none;
             font-weight: 500;
+            font-size: 14px;
             transition: all 0.3s;
-            position: relative;
+            border-radius: 40px;
+            white-space: nowrap;
         }
 
-        .nav-links a:hover {
+        .nav-link:hover {
+            background: linear-gradient(135deg, rgba(44, 94, 46, 0.1), rgba(128, 0, 32, 0.1));
             color: #2C5E2E;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, #2C5E2E, #800020);
-            transition: width 0.3s;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
         }
 
         /* Admin Button */
@@ -121,17 +101,14 @@
             background: linear-gradient(135deg, #2C5E2E, #800020);
             color: white !important;
             padding: 8px 20px;
-            border-radius: 50px;
-            transition: transform 0.3s, box-shadow 0.3s !important;
+            border-radius: 40px;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
         .admin-link:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(44, 94, 46, 0.3);
-        }
-
-        .admin-link::after {
-            display: none !important;
+            background: linear-gradient(135deg, #3D7A3F, #A00028);
         }
 
         .container {
@@ -142,7 +119,7 @@
             z-index: 1;
         }
 
-        /* Hero Section */
+        /* Hero Section - Redesigned */
         .hero {
             text-align: center;
             padding: 60px 0 40px;
@@ -161,18 +138,27 @@
         }
 
         .hero h1 {
-            font-size: 64px;
+            font-size: 56px;
             font-weight: 800;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             background: linear-gradient(135deg, #0f172a 0%, #2C5E2E 40%, #800020 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: -2px;
+            letter-spacing: -1px;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            color: #475569;
+            margin-bottom: 40px;
+            line-height: 1.5;
+            font-weight: 500;
         }
 
         .hero p {
             font-size: 18px;
-            color: #475569;
+            color: #64748b;
             margin-bottom: 40px;
             line-height: 1.6;
         }
@@ -188,8 +174,6 @@
             margin: 0 10px;
             font-weight: 600;
             transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
             box-shadow: 0 4px 15px rgba(44, 94, 46, 0.2);
         }
 
@@ -409,30 +393,101 @@
             color: #94a3b8;
         }
 
+        /* Mobile Navigation - Horizontal Scroll */
         @media (max-width: 768px) {
+            .navbar {
+                top: 15px;
+                padding: 10px 16px;
+                gap: 4px;
+                border-radius: 50px;
+                width: auto;
+                max-width: 95%;
+                overflow-x: auto;
+                justify-content: flex-start;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+            
+            .navbar::-webkit-scrollbar {
+                display: none;
+            }
+            
+            .nav-link {
+                padding: 6px 14px;
+                font-size: 12px;
+                white-space: nowrap;
+            }
+            
+            .admin-link {
+                padding: 6px 14px;
+                font-size: 12px;
+            }
+            
             .stats-grid, .services-grid, .footer-content {
                 grid-template-columns: 1fr;
             }
+            
             .hero h1 {
-                font-size: 36px;
+                font-size: 32px;
             }
+            
+            .hero-subtitle {
+                font-size: 16px;
+            }
+            
+            .hero p {
+                font-size: 14px;
+            }
+            
             .container {
                 padding: 120px 20px 60px;
             }
-            .navbar {
-                padding: 15px 20px;
-            }
-            .nav-links {
-                gap: 15px;
-            }
-            .nav-links a {
-                font-size: 14px;
-            }
-            .admin-link {
-                padding: 5px 12px;
-                font-size: 12px;
-            }
+            
             .section-title {
+                font-size: 28px;
+            }
+            
+            .btn-primary, .btn-outline {
+                padding: 10px 20px;
+                font-size: 14px;
+                margin: 5px;
+            }
+        }
+
+        /* Tablet */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .hero h1 {
+                font-size: 44px;
+            }
+            
+            .stats-grid, .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .navbar {
+                padding: 12px 20px;
+            }
+        }
+
+        /* Small phones */
+        @media (max-width: 480px) {
+            .navbar {
+                gap: 2px;
+                padding: 8px 12px;
+            }
+            
+            .nav-link {
+                padding: 5px 10px;
+                font-size: 11px;
+            }
+            
+            .admin-link {
+                padding: 5px 10px;
+                font-size: 11px;
+            }
+            
+            .hero h1 {
                 font-size: 28px;
             }
         }
@@ -444,21 +499,19 @@
     </div>
 
     <nav class="navbar">
-        <div class="logo">Two Dee Engineering</div>
-        <div class="nav-links">
-            <a href="/">Home</a>
-            <a href="/services">Services</a>
-            <a href="/projects">Projects</a>
-            <a href="/about">About</a>
-            <a href="/contact">Contact</a>
-            <a href="/admin/login" class="admin-link">🔐 Admin</a>
-        </div>
+        <a href="/" class="nav-link">Home</a>
+        <a href="/services" class="nav-link">Services</a>
+        <a href="/projects" class="nav-link">Projects</a>
+        <a href="/about" class="nav-link">About</a>
+        <a href="/contact" class="nav-link">Contact</a>
+        <a href="/admin/login" class="nav-link admin-link">🔐 Admin</a>
     </nav>
 
     <div class="container">
         <div class="hero">
             <div class="hero-badge">✦ ENGINEERING TOMORROW ✦</div>
-            <h1>Precision Engineering.<br>Proven Results.</h1>
+            <h1>Two Dee Engineering<br>Services</h1>
+            <div class="hero-subtitle">Precision Engineering. Proven Results.</div>
             <p>Structural & Civil Engineering for complex commercial and residential projects.<br>Licensed in Texas and California.</p>
             <a href="/projects" class="btn-primary">Explore Projects</a>
             <a href="/contact" class="btn-outline">Request Consultation</a>
