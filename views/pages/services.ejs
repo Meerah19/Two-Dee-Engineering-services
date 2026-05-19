@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services - Two Dee Engineering</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #f1f5f9 100%); color: #0f172a; }
+        
+        .tech-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; background-image: radial-gradient(circle at 20% 80%, rgba(44, 94, 46, 0.02) 0%, transparent 50%); }
+        
+        .navbar { position: fixed; top: 0; width: 100%; padding: 20px 40px; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); z-index: 1000; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(44,94,46,0.1); }
+        .logo { font-size: 24px; font-weight: 800; background: linear-gradient(135deg, #2C5E2E 0%, #800020 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-links a { color: #334155; text-decoration: none; margin-left: 30px; font-weight: 500; transition: color 0.3s; position: relative; }
+        .nav-links a:hover { color: #2C5E2E; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: linear-gradient(90deg, #2C5E2E, #800020); transition: width 0.3s; }
+        .nav-links a:hover::after { width: 100%; }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 140px 40px 80px; position: relative; z-index: 1; }
+        .page-title { text-align: center; font-size: 48px; font-weight: 700; margin-bottom: 20px; background: linear-gradient(135deg, #0f172a, #2C5E2E); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { text-align: center; color: #64748b; margin-bottom: 60px; font-size: 18px; }
+        
+        .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
+        .service-card { background: white; padding: 40px; border-radius: 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: all 0.3s; border: 1px solid rgba(44,94,46,0.08); position: relative; overflow: hidden; }
+        .service-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, #2C5E2E, #800020); transform: scaleX(0); transition: transform 0.3s; }
+        .service-card:hover::before { transform: scaleX(1); }
+        .service-card:hover { transform: translateY(-8px); box-shadow: 0 25px 45px rgba(44,94,46,0.12); }
+        .service-icon { font-size: 56px; margin-bottom: 20px; display: inline-block; }
+        .service-card h2 { font-size: 26px; margin-bottom: 15px; color: #0f172a; }
+        .service-card p { color: #64748b; line-height: 1.6; margin-bottom: 25px; }
+        .service-link { color: #2C5E2E; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; transition: gap 0.3s; }
+        .service-link:hover { gap: 12px; }
+        
+        .footer { background: #0f172a; color: white; padding: 60px 40px 30px; margin-top: 60px; text-align: center; }
+        @media (max-width: 768px) {
+            .services-grid { grid-template-columns: 1fr; }
+            .navbar { padding: 15px 20px; }
+            .nav-links a { margin-left: 15px; font-size: 14px; }
+            .container { padding: 120px 20px 60px; }
+            .page-title { font-size: 32px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="tech-bg"></div>
+    
+    <nav class="navbar">
+        <div class="logo">Two Dee Engineering</div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/services">Services</a>
+            <a href="/projects">Projects</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="page-title">Our Engineering Services</h1>
+        <p class="subtitle">Comprehensive expertise from concept to completion</p>
+
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🏗️</div>
+                <h2>Structural Engineering</h2>
+                <p>Innovative structural design for commercial buildings, residential complexes, and specialized structures with a focus on safety and efficiency.</p>
+                <a href="/contact" class="service-link">Request Quote →</a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🏞️</div>
+                <h2>Civil Engineering</h2>
+                <p>Site development, grading, drainage solutions, and infrastructure planning that meets regulatory requirements and project goals.</p>
+                <a href="/contact" class="service-link">Request Quote →</a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">⚡</div>
+                <h2>MEP Engineering</h2>
+                <p>Mechanical, electrical, and plumbing systems designed for optimal performance, energy efficiency, and occupant comfort.</p>
+                <a href="/contact" class="service-link">Request Quote →</a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🔧</div>
+                <h2>Construction Consulting</h2>
+                <p>Expert guidance throughout the construction lifecycle, from value engineering to quality assurance and project management.</p>
+                <a href="/contact" class="service-link">Request Quote →</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 Two Dee Engineering Services. All rights reserved.</p>
+        <p style="margin-top: 10px; font-size: 12px;">Licensed PE: TX-123456 | CA-789101</p>
+    </footer>
+</body>
+</html>

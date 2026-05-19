@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Partners - Admin Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f1f5f9; }
+        .menu-btn {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: #0f172a;
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px 15px;
+            border-radius: 12px;
+        }
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            position: fixed;
+            height: 100vh;
+            padding: 30px;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        .sidebar h2 { background: linear-gradient(135deg, #2C5E2E, #800020); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 40px; }
+        .sidebar a { display: flex; align-items: center; gap: 12px; color: #94a3b8; text-decoration: none; padding: 12px 15px; border-radius: 12px; }
+        .sidebar a:hover, .sidebar a.active { background: rgba(44,94,46,0.2); color: white; }
+        .logout { margin-top: 50px; border-top: 1px solid #334155; padding-top: 20px; color: #ef4444 !important; }
+        .main { margin-left: 280px; padding: 30px; transition: margin-left 0.3s ease; }
+        .card { background: white; border-radius: 20px; padding: 25px; margin-bottom: 20px; }
+        .btn-add { background: #2C5E2E; color: white; border: none; padding: 10px 20px; border-radius: 12px; cursor: pointer; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+        .delete-btn { background: #ef4444; color: white; border: none; padding: 5px 12px; border-radius: 8px; cursor: pointer; }
+        .modal, .addModal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            z-index: 1000;
+            width: 400px;
+        }
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; }
+        input, select { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #e2e8f0; border-radius: 8px; }
+        @media (max-width: 768px) {
+            .menu-btn { display: block; }
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .main { margin-left: 0; padding: 80px 20px 20px; }
+            table, thead, tbody, th, td, tr { display: block; }
+            thead { display: none; }
+            tr { margin-bottom: 15px; border: 1px solid #e2e8f0; border-radius: 12px; padding: 10px; }
+            td { display: flex; justify-content: space-between; align-items: center; padding: 8px; }
+            td:before { content: attr(data-label); font-weight: bold; color: #0f172a; margin-right: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+    
+    <div class="sidebar" id="sidebar">
+        <h2>Two Dee Engineering</h2>
+        <a href="/admin/dashboard">📊 Dashboard</a>
+        <a href="/admin/inquiries">📬 Inquiries</a>
+        <a href="/admin/partners" class="active">🤝 Partners</a>
+        <a href="/admin/projects">📋 Project Tracker</a>
+        <a href="/admin/logout" class="logout">🚪 Logout</a>
+    </div>
+    
+    <div class="main">
+        <div class="card">
+            <h1>Partners & Clients</h1>
+            <button class="btn-add" onclick="showAddModal()">+ Add Partner</button>
+            <table>
+                <thead><tr><th>Icon</th><th>Name</th><th>Type</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody>
+                    <% partners.forEach(p => { %>
+                    <tr>
+                        <td data-label="Icon"><%= p.icon || '🤝' %></td>
+                        <td data-label="Name"><%= p.name %></td>
+                        <td data-label="Type"><span style="background:#e2e8f0; padding:4px 12px; border-radius:20px;"><%= p.type %></span></td>
+                        <td data-label="Status"><span style="background:#dcfce7; padding:4px 12px; border-radius:20px;"><%= p.status || 'active' %></span></td>
+                        <td data-label="Action">
+                            <form action="/admin/partner/delete/<%= p._id %>" method="POST">
+                                <button class="delete-btn" onclick="return confirm('Delete?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="overlay" id="overlay" onclick="closeModals()"></div>
+    <div class="addModal" id="addModal">
+        <h2>Add Partner</h2>
+        <form method="POST" action="/admin/partner/add">
+            <input type="text" name="name" placeholder="Name" required>
+            <input type="text" name="icon" placeholder="Icon (emoji)" value="🤝">
+            <select name="type">
+                <option value="client">Client</option>
+                <option value="partner">Partner</option>
+                <option value="collaborator">Collaborator</option>
+            </select>
+            <button type="submit" style="background:#2C5E2E; color:white; padding:10px; border:none; border-radius:8px; width:100%; margin-top:10px;">Save</button>
+            <button type="button" onclick="closeModals()" style="background:#e2e8f0; padding:10px; border:none; border-radius:8px; width:100%; margin-top:5px;">Cancel</button>
+        </form>
+    </div>
+    
+    <script>
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
+        function showAddModal() { document.getElementById('addModal').style.display = 'block'; document.getElementById('overlay').style.display = 'block'; }
+        function closeModals() { document.getElementById('addModal').style.display = 'none'; document.getElementById('overlay').style.display = 'none'; }
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const menuBtn = document.querySelector('.menu-btn');
+            if (window.innerWidth <= 768 && !sidebar.contains(event.target) && !menuBtn.contains(event.target)) {
+                sidebar.classList.remove('open');
+            }
+        });
+    </script>
+</body>
+</html>

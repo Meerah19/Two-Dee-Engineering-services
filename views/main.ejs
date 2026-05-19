@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="<%= seoDescription || 'Two Dee Engineering Services - Futuristic precision engineering solutions' %>">
+    <meta name="keywords" content="structural engineering, civil engineering, MEP engineering, futuristic engineering, AI engineering">
+    <meta name="author" content="Two Dee Engineering Services">
+    
+    <title><%= title %></title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Three.js -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.128.0/build/three.module.js"
+            }
+        }
+    </script>
+    
+    <style>
+        /* Tailwind custom configuration */
+        @layer base {
+            :root {
+                --forest-green: #2C5E2E;
+                --burgundy: #800020;
+                --charcoal: #1A1A2E;
+                --neon-cyan: #00F5FF;
+                --glass-bg: rgba(255, 255, 255, 0.05);
+            }
+            
+            body {
+                font-family: 'Inter', sans-serif;
+                background: linear-gradient(135deg, #0A0A0F 0%, #1A1A2E 100%);
+                color: #FFFFFF;
+            }
+            
+            .font-space {
+                font-family: 'Space Grotesk', monospace;
+            }
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .neon-border {
+            box-shadow: 0 0 10px rgba(0, 245, 255, 0.3);
+            border: 1px solid rgba(0, 245, 255, 0.5);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #2C5E2E 0%, #00F5FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hover-glow:hover {
+            box-shadow: 0 0 20px rgba(44, 94, 46, 0.5);
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+    <%- include('../partials/header') %>
+    
+    <main class="relative">
+        <%= content %>
+    </main>
+    
+    <%- include('../partials/footer') %>
+    <%- include('../partials/scripts') %>
+    
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inquiries - Admin Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f1f5f9; }
+        
+        /* Mobile Menu Button */
+        .menu-btn {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: #0f172a;
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px 15px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            position: fixed;
+            height: 100vh;
+            padding: 30px;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        
+        .sidebar h2 {
+            background: linear-gradient(135deg, #2C5E2E, #800020);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 40px;
+            font-size: 22px;
+        }
+        
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #94a3b8;
+            text-decoration: none;
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+        
+        .sidebar a:hover, .sidebar a.active { 
+            background: rgba(44,94,46,0.2); 
+            color: white; 
+        }
+        
+        .logout { 
+            margin-top: 50px; 
+            border-top: 1px solid #334155; 
+            padding-top: 20px; 
+            color: #ef4444 !important; 
+        }
+        
+        /* Main Content */
+        .main { 
+            margin-left: 280px; 
+            padding: 30px; 
+            transition: margin-left 0.3s ease;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .card h1 { 
+            margin-bottom: 20px; 
+            font-size: 24px;
+            color: #0f172a;
+        }
+        
+        /* Table Styles */
+        .inquiries-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .inquiries-table th {
+            text-align: left;
+            padding: 15px 12px;
+            background: #f8fafc;
+            color: #475569;
+            font-weight: 600;
+            font-size: 14px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .inquiries-table td {
+            padding: 15px 12px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: top;
+            color: #334155;
+        }
+        
+        .status-new { 
+            background: #dcfce7; 
+            color: #166534; 
+            padding: 4px 12px; 
+            border-radius: 20px; 
+            font-size: 12px; 
+            display: inline-block; 
+        }
+        
+        .delete-btn { 
+            background: #ef4444; 
+            color: white; 
+            border: none; 
+            padding: 6px 14px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-size: 13px;
+            transition: background 0.3s;
+        }
+        
+        .delete-btn:hover { background: #dc2626; }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #94a3b8;
+        }
+        
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .menu-btn {
+                display: block;
+            }
+            
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main {
+                margin-left: 0;
+                padding: 80px 15px 20px;
+            }
+            
+            /* Convert table to cards on mobile */
+            .inquiries-table,
+            .inquiries-table thead,
+            .inquiries-table tbody,
+            .inquiries-table th,
+            .inquiries-table td,
+            .inquiries-table tr {
+                display: block;
+            }
+            
+            .inquiries-table thead {
+                display: none;
+            }
+            
+            .inquiries-table tr {
+                background: white;
+                border: 1px solid #e2e8f0;
+                border-radius: 16px;
+                margin-bottom: 15px;
+                padding: 15px;
+                box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            }
+            
+            .inquiries-table td {
+                display: flex;
+                align-items: flex-start;
+                padding: 10px 0;
+                border-bottom: 1px solid #f1f5f9;
+                gap: 10px;
+            }
+            
+            .inquiries-table td:last-child {
+                border-bottom: none;
+            }
+            
+            .inquiries-table td:before {
+                content: attr(data-label);
+                font-weight: 700;
+                color: #0f172a;
+                min-width: 85px;
+                font-size: 13px;
+            }
+            
+            .card {
+                padding: 20px 15px;
+            }
+            
+            .card h1 {
+                font-size: 20px;
+                margin-bottom: 15px;
+            }
+        }
+        
+        /* Small phones */
+        @media (max-width: 480px) {
+            .main {
+                padding: 70px 12px 20px;
+            }
+            
+            .inquiries-table td:before {
+                min-width: 70px;
+                font-size: 12px;
+            }
+            
+            .delete-btn {
+                padding: 4px 12px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+    
+    <div class="sidebar" id="sidebar">
+        <h2>Two Dee Engineering</h2>
+        <a href="/admin/dashboard">📊 Dashboard</a>
+        <a href="/admin/inquiries" class="active">📬 Inquiries</a>
+        <a href="/admin/partners">🤝 Partners</a>
+        <a href="/admin/projects">📋 Project Tracker</a>
+        <a href="/admin/logout" class="logout">🚪 Logout</a>
+    </div>
+    
+    <div class="main">
+        <div class="card">
+            <h1>📬 Customer Inquiries</h1>
+            
+            <% if (inquiries && inquiries.length > 0) { %>
+                <table class="inquiries-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Message</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% inquiries.forEach(i => { %>
+                            <tr>
+                                <td data-label="Name"><%= i.name || 'N/A' %></td>
+                                <td data-label="Email"><%= i.email || 'N/A' %></td>
+                                <td data-label="Message" style="word-break: break-word;"><%= i.message || 'No message' %></td>
+                                <td data-label="Date"><%= i.createdAt ? new Date(i.createdAt).toLocaleDateString() : 'N/A' %></td>
+                                <td data-label="Status">
+                                    <span class="status-new"><%= i.status || 'new' %></span>
+                                </td>
+                                <td data-label="Action">
+                                    <form action="/admin/inquiry/delete/<%= i._id %>" method="POST" onsubmit="return confirm('Delete this inquiry?')">
+                                        <button type="submit" class="delete-btn">🗑️ Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            <% } else { %>
+                <div class="empty-state">
+                    🎉 No inquiries yet. When customers contact you, they'll appear here.
+                </div>
+            <% } %>
+        </div>
+    </div>
+    
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const menuBtn = document.querySelector('.menu-btn');
+            if (window.innerWidth <= 768) {
+                if (sidebar && !sidebar.contains(event.target) && menuBtn && !menuBtn.contains(event.target)) {
+                    sidebar.classList.remove('open');
+                }
+            }
+        });
+        
+        // Close sidebar when a link is clicked (mobile)
+        document.querySelectorAll('.sidebar a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    document.getElementById('sidebar').classList.remove('open');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

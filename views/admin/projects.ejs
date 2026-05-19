@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project Tracker - Admin Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f1f5f9; }
+        .menu-btn {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: #0f172a;
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px 15px;
+            border-radius: 12px;
+        }
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            position: fixed;
+            height: 100vh;
+            padding: 30px;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        .sidebar h2 { background: linear-gradient(135deg, #2C5E2E, #800020); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 40px; }
+        .sidebar a { display: flex; align-items: center; gap: 12px; color: #94a3b8; text-decoration: none; padding: 12px 15px; border-radius: 12px; }
+        .sidebar a:hover, .sidebar a.active { background: rgba(44,94,46,0.2); color: white; }
+        .logout { margin-top: 50px; border-top: 1px solid #334155; padding-top: 20px; color: #ef4444 !important; }
+        .main { margin-left: 280px; padding: 30px; transition: margin-left 0.3s ease; }
+        .card { background: white; border-radius: 20px; padding: 25px; margin-bottom: 20px; }
+        .btn-add { background: #2C5E2E; color: white; border: none; padding: 10px 20px; border-radius: 12px; cursor: pointer; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+        .progress-bar { background: #e2e8f0; border-radius: 10px; height: 8px; width: 100px; overflow: hidden; }
+        .progress-fill { background: #2C5E2E; height: 100%; border-radius: 10px; }
+        .status-ongoing { background: #fef3c7; color: #d97706; padding: 4px 12px; border-radius: 20px; display: inline-block; }
+        .status-completed { background: #dcfce7; color: #166534; padding: 4px 12px; border-radius: 20px; display: inline-block; }
+        .status-planning { background: #e0e7ff; color: #4338ca; padding: 4px 12px; border-radius: 20px; display: inline-block; }
+        .delete-btn { background: #ef4444; color: white; border: none; padding: 5px 12px; border-radius: 8px; cursor: pointer; }
+        .update-btn { background: #3b82f6; color: white; border: none; padding: 5px 12px; border-radius: 8px; cursor: pointer; margin-right: 5px; }
+        .modal, .addModal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            z-index: 1000;
+            width: 450px;
+            max-width: 90%;
+        }
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; }
+        input, select { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #e2e8f0; border-radius: 8px; }
+        @media (max-width: 768px) {
+            .menu-btn { display: block; }
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .main { margin-left: 0; padding: 80px 20px 20px; }
+            table, thead, tbody, th, td, tr { display: block; }
+            thead { display: none; }
+            tr { margin-bottom: 15px; border: 1px solid #e2e8f0; border-radius: 12px; padding: 10px; }
+            td { display: flex; justify-content: space-between; align-items: center; padding: 8px; flex-wrap: wrap; }
+            td:before { content: attr(data-label); font-weight: bold; color: #0f172a; margin-right: 10px; min-width: 80px; }
+        }
+    </style>
+</head>
+<body>
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+    
+    <div class="sidebar" id="sidebar">
+        <h2>Two Dee Engineering</h2>
+        <a href="/admin/dashboard">📊 Dashboard</a>
+        <a href="/admin/inquiries">📬 Inquiries</a>
+        <a href="/admin/partners">🤝 Partners</a>
+        <a href="/admin/projects" class="active">📋 Project Tracker</a>
+        <a href="/admin/logout" class="logout">🚪 Logout</a>
+    </div>
+    
+    <div class="main">
+        <div class="card">
+            <h1>Project Tracker</h1>
+            <button class="btn-add" onclick="showAddModal()">+ New Project</button>
+            <table>
+                <thead><tr><th>Project</th><th>Client</th><th>Progress</th><th>Status</th><th>Timeline</th><th>Actions</th></tr></thead>
+                <tbody>
+                    <% projects.forEach(p => { %>
+                    <tr>
+                        <td data-label="Project"><strong><%= p.name %></strong></td>
+                        <td data-label="Client"><%= p.client %></td>
+                        <td data-label="Progress">
+                            <div class="progress-bar"><div class="progress-fill" style="width: <%= p.progress %>%"></div></div>
+                            <span style="font-size:12px"><%= p.progress %>%</span>
+                        </td>
+                        <td data-label="Status"><span class="status-<%= p.status %>"><%= p.status %></span></td>
+                        <td data-label="Timeline" style="font-size:12px"><%= p.startDate %> → <%= p.endDate %></td>
+                        <td data-label="Actions">
+                            <button class="update-btn" onclick="showUpdateModal('<%= p._id %>', <%= p.progress %>)">Update</button>
+                            <form action="/admin/project/delete/<%= p._id %>" method="POST" style="display:inline">
+                                <button class="delete-btn" onclick="return confirm('Delete?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="closeModals()"></div>
+    
+    <div class="addModal" id="addModal">
+        <h2>Add New Project</h2>
+        <form method="POST" action="/admin/project/add">
+            <input type="text" name="name" placeholder="Project Name" required>
+            <input type="text" name="client" placeholder="Client Name" required>
+            <select name="status">
+                <option value="planning">Planning</option>
+                <option value="ongoing">Ongoing</option>
+                <option value="completed">Completed</option>
+            </select>
+            <input type="number" name="progress" placeholder="Progress %" value="0" min="0" max="100">
+            <input type="date" name="startDate" required>
+            <input type="date" name="endDate" required>
+            <select name="priority">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
+            <button type="submit" style="background:#2C5E2E; color:white; padding:10px; border:none; border-radius:8px; width:100%; margin-top:10px;">Create Project</button>
+            <button type="button" onclick="closeModals()" style="background:#e2e8f0; padding:10px; border:none; border-radius:8px; width:100%; margin-top:5px;">Cancel</button>
+        </form>
+    </div>
+
+    <div class="modal" id="updateModal">
+        <h2>Update Progress</h2>
+        <form id="updateForm" method="POST">
+            <input type="number" name="progress" id="progressInput" placeholder="Progress %" min="0" max="100" required>
+            <input type="hidden" name="status" id="statusInput">
+            <button type="submit" style="background:#3b82f6; color:white; padding:10px; border:none; border-radius:8px; width:100%; margin-top:10px;">Update Progress</button>
+            <button type="button" onclick="closeModals()" style="background:#e2e8f0; padding:10px; border:none; border-radius:8px; width:100%; margin-top:5px;">Cancel</button>
+        </form>
+    </div>
+
+    <script>
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
+        function showAddModal() { document.getElementById('addModal').style.display = 'block'; document.getElementById('overlay').style.display = 'block'; }
+        function showUpdateModal(id, progress) {
+            document.getElementById('updateModal').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('updateForm').action = '/admin/project/update/' + id;
+            document.getElementById('progressInput').value = progress;
+            document.getElementById('statusInput').value = progress >= 100 ? 'completed' : 'ongoing';
+        }
+        function closeModals() {
+            document.getElementById('addModal').style.display = 'none';
+            document.getElementById('updateModal').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const menuBtn = document.querySelector('.menu-btn');
+            if (window.innerWidth <= 768 && !sidebar.contains(event.target) && !menuBtn.contains(event.target)) {
+                sidebar.classList.remove('open');
+            }
+        });
+    </script>
+</body>
+</html>
