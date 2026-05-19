@@ -2,76 +2,111 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - Two Dee Engineering</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title><%= title %> - Two Dee Engineering</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #f1f5f9 100%); color: #0f172a; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #f1f5f9 100%);
+            color: #0f172a;
+            min-height: 100vh;
+        }
         
-        .navbar { position: fixed; top: 0; width: 100%; padding: 20px 40px; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); z-index: 1000; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(44,94,46,0.1); }
-        .logo { font-size: 24px; font-weight: 800; background: linear-gradient(135deg, #2C5E2E 0%, #800020 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .nav-links a { color: #334155; text-decoration: none; margin-left: 30px; font-weight: 500; transition: color 0.3s; position: relative; }
-        .nav-links a:hover { color: #2C5E2E; }
-        .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: linear-gradient(90deg, #2C5E2E, #800020); transition: width 0.3s; }
-        .nav-links a:hover::after { width: 100%; }
+        /* Navigation Card */
+        .nav-card {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-radius: 50px;
+            border: 1px solid rgba(44, 94, 46, 0.15);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+            z-index: 1000;
+            padding: 8px 20px;
+        }
+        .nav-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: nowrap;
+        }
+        .nav-link {
+            padding: 8px 18px;
+            color: #334155;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            border-radius: 40px;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+        .nav-link:hover { background: rgba(44, 94, 46, 0.1); color: #2C5E2E; }
+        .admin-link {
+            background: linear-gradient(135deg, #2C5E2E, #800020);
+            color: white !important;
+        }
+        .admin-link:hover { background: linear-gradient(135deg, #3D7A3F, #A00028); transform: translateY(-1px); }
         
-        .container { max-width: 1000px; margin: 0 auto; padding: 140px 40px 80px; }
-        .page-title { text-align: center; font-size: 48px; font-weight: 700; margin-bottom: 50px; background: linear-gradient(135deg, #0f172a, #2C5E2E); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        .about-card { background: white; padding: 40px; border-radius: 28px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid rgba(44,94,46,0.08); transition: all 0.3s; }
-        .about-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(44,94,46,0.1); }
-        .about-card h2 { color: #2C5E2E; margin-bottom: 20px; font-size: 28px; }
-        .about-card p { color: #475569; line-height: 1.6; font-size: 16px; }
-        .about-card ul { margin-left: 20px; margin-top: 15px; }
-        .about-card li { color: #475569; margin-bottom: 12px; }
-        
-        .footer { background: #0f172a; color: white; padding: 60px 40px 30px; margin-top: 60px; text-align: center; }
         @media (max-width: 768px) {
-            .navbar { padding: 15px 20px; }
-            .nav-links a { margin-left: 15px; font-size: 14px; }
+            .nav-card { width: 92%; padding: 6px 12px; overflow-x: auto; scrollbar-width: none; }
+            .nav-card::-webkit-scrollbar { display: none; }
+            .nav-container { display: inline-flex; gap: 4px; }
+            .nav-link { padding: 6px 14px; font-size: 13px; }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 140px 40px 80px;
+        }
+        
+        .page-title {
+            text-align: center;
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #0f172a, #2C5E2E);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .footer {
+            background: #0f172a;
+            color: white;
+            padding: 60px 40px 30px;
+            margin-top: 60px;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
             .container { padding: 120px 20px 60px; }
             .page-title { font-size: 32px; }
         }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="logo">Two Dee Engineering</div>
-        <div class="nav-links">
-            <a href="/">Home</a>
-            <a href="/services">Services</a>
-            <a href="/projects">Projects</a>
-            <a href="/about">About</a>
-            <a href="/contact">Contact</a>
-        </div>
-    </nav>
-
-    <div class="container">
-        <h1 class="page-title">About Two Dee Engineering</h1>
-
-        <div class="about-card">
-            <h2>🏢 Our Mission</h2>
-            <p>To deliver precision engineering solutions that exceed client expectations while maintaining the highest standards of safety, sustainability, and innovation. We believe in building structures that stand the test of time.</p>
-        </div>
-
-        <div class="about-card">
-            <h2>📊 Our Expertise</h2>
-            <p>With over 25 years of combined experience, our team of licensed professional engineers brings deep expertise across structural, civil, MEP, and construction consulting services. We've successfully delivered over 150 projects across 15 states.</p>
-        </div>
-
-        <div class="about-card">
-            <h2>🏆 Certifications & Memberships</h2>
-            <ul>
-                <li>✅ Licensed Professional Engineer (PE) - Texas & California</li>
-                <li>✅ ASCE Member (American Society of Civil Engineers)</li>
-                <li>✅ AIA Associate (American Institute of Architects)</li>
-                <li>✅ LEED Accredited Professional</li>
-                <li>✅ OSHA Certified</li>
-            </ul>
+    <div class="nav-card">
+        <div class="nav-container">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/services" class="nav-link">Services</a>
+            <a href="/projects" class="nav-link">Projects</a>
+            <a href="/about" class="nav-link">About</a>
+            <a href="/contact" class="nav-link">Contact</a>
+            <a href="/admin/login" class="nav-link admin-link">🔐 Admin</a>
         </div>
     </div>
-
+    
+    <div class="container">
+        <h1 class="page-title"><%= pageTitle %></h1>
+        <div style="background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); border-radius: 24px; padding: 40px; border: 1px solid rgba(44,94,46,0.1);">
+            <%= content %>
+        </div>
+    </div>
+    
     <footer class="footer">
         <p>&copy; 2024 Two Dee Engineering Services. All rights reserved.</p>
         <p style="margin-top: 10px; font-size: 12px;">Licensed PE: TX-123456 | CA-789101</p>
